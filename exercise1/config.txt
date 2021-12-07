@@ -1,0 +1,4 @@
+./exercise1
+./input.txt
+./expectedOutput.txt
+
