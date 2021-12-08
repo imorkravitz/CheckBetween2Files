@@ -1,41 +1,65 @@
 #include <stdio.h>
 #include <sys/fcntl.h>
+#include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
+int main(int argc, char *argv[])
+{
+    char students[50];
+    char input[50];
+    char expectedOutput[50];
 
-int main(int argc, char *argv[]){
-    
-    int res1, res2, res3;
-    char const* const fileName = "./config.txt";
-    FILE* file = fopen(fileName, "r");
+    char const *const fileName = "./config.txt";
+    FILE *file = fopen(fileName, "r");
     if (!file){
         printf("Error opening: %s", fileName);
         return -1;
     }
     char line[500];
-    while(fgets(line,sizeof(line),file)){
-        printf("%s",line);
-    }  
+    fgets(line, sizeof(line), file);
+    strcpy(students, line);
+    fgets(line, sizeof(line), file);
+    strcpy(input, line);
+    fgets(line, sizeof(line), file);
+    strcpy(expectedOutput, line);
+
+    printf("%s", students);
+    printf("%s", input);
+    printf("%s", expectedOutput);
+
     fclose(file);
 
+    //-------------------------------//
 
-    // char input[50];
-    // char expectedOutput[50];  
-    // char students[50]; // "./students"
-    // int fd1 =  open("./config.txt", O_RDONLY);
-    
-    // res1 = read(fd1, &students, 50); // ./students
-    // res2 = read(fd1, &input, 50); // ./input
-    // res3 = read(fd1, &expectedOutput, 50); // ./expectedOutput
+int fd, pid, ret_code;
+fd = open ( "studentList.txt" , (O_WRONLY | O_CREAT | O_TRUNC) , 0666);
+pid = fork();  
+if (pid == 0) /* son */ 
+{	
+	printf("Son : %d ;file descriptor: %d \n",getpid(),fd);
+	close(1);	/* close stdout*/
+	dup(fd);	/* dup will copy fd into stdout */
+	close(fd);	/* no need for fd anymore*/
 
-   
-    // printf("%s", students);
+    char* args[2];
+    args[0] = "ls";
+    args[1] = NULL;
+    ret_code = execvp(args[0], args);
+	// ret_code = execvp(args[0], args);	/*always same exe */  
+	if (ret_code == -1) {
+		perror("exec failed "); 
+		exit(-1);
+	} 
+} 
+else	/* father */ 
+{  
+	printf("Father: after fork, sons proc id is %d \n", pid);
+	wait(NULL);	
+}
 
-    // close(fd1);
-
-   return 0;
+    return 0;
 }
