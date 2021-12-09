@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 
 int fd, pid, ret_code;
 fd = open ( "studentList.txt" , (O_WRONLY | O_CREAT | O_TRUNC) , 0666);
+  
 pid = fork();  
 if (pid == 0) /* son */ 
 {	
@@ -44,10 +45,11 @@ if (pid == 0) /* son */
 	close(1);	/* close stdout*/
 	dup(fd);	/* dup will copy fd into stdout */
 	close(fd);	/* no need for fd anymore*/
-
-    char* args[2];
+    
+    char* args[3];
     args[0] = "ls";
-    args[1] = NULL;
+    args[1] = "students";
+    args[2] = NULL;
     ret_code = execvp(args[0], args);
 	// ret_code = execvp(args[0], args);	/*always same exe */  
 	if (ret_code == -1) {
@@ -58,6 +60,7 @@ if (pid == 0) /* son */
 else	/* father */ 
 {  
 	printf("Father: after fork, sons proc id is %d \n", pid);
+
 	wait(NULL);	
 }
 
