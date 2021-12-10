@@ -84,8 +84,9 @@ int main(int argc, char *argv[])
         return -1;
     }
     char line2[50];
-    while (fgets(line2, sizeof(line), file2))
+    while (fgets(line2, sizeof(line2), file2))
     {
+        printf("Student: %s", line2);
         int fd2, pid2, ret_code2;
         pid2 = fork();
         if (pid2 == 0) /* son */

@@ -32,10 +32,11 @@ int main(int argc, char *argv[]){
             }else{_exit(1);}
         }else{_exit(1);}
     }
+    
     while(result1 > 0 && result2 > 0);
     close(fd1); // free allocated memory
     close(fd2);
     _exit(2);
-    
+
     return 0;
 }
