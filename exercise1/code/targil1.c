@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
     int fd2 = open(file2, O_RDONLY);
 
     if(fd1<0 || fd2<0){
-        perror("after open");
+        perror("after open COMP.exe");
         _exit(1);
     }
 
