@@ -7,11 +7,22 @@
 #include <stdlib.h>
 #include <string.h>
 
+void fixCpy(char* dest, char* src){
+    if (src)
+    {
+        int i=0;
+        while(src[i]!='\n'){
+            dest[i] = src[i];
+            i++;
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
-    char students[50];
-    char input[50];
-    char expectedOutput[50];
+    char students[50] = {'0'};
+    char input[50] = {'0'};
+    char expectedOutput[50] = {'0'};
 
     char const *const fileName = "./config.txt";
     FILE *file = fopen(fileName, "r");
@@ -22,11 +33,11 @@ int main(int argc, char *argv[])
     }
     char line[500];
     fgets(line, sizeof(line), file);
-    strcat(students, line);
+    fixCpy(students, line);
     fgets(line, sizeof(line), file);
-    strcpy(input, line);
+    fixCpy(input, line);
     fgets(line, sizeof(line), file);
-    strcpy(expectedOutput, line);
+    fixCpy(expectedOutput, line);
 
     fclose(file);
 
@@ -44,7 +55,7 @@ int main(int argc, char *argv[])
 
         char *args[3];
         args[0] = "ls";
-        args[1] = "students";
+        args[1] = students;
         args[2] = NULL;
         ret_code = execvp(args[0], args);
         if (ret_code == -1)
@@ -87,7 +98,7 @@ int main(int argc, char *argv[])
             _exit(1);
         }
         //----------------calculate students function from input----------------//
-
+        char ExPath[50] ="../exercise1";
         int fd2, pid2, ret_code2;
         char name[50];
         pid2 = fork();
@@ -104,15 +115,16 @@ int main(int argc, char *argv[])
                 name[i] = line2[i];
                 i++;
             }
-            char path[1000] = "./students";
+            char path[1000];
+            strcpy(path, students);
             strcat(path, "/");
             strcat(path, name);
             strcat(path, "/studentMain.exe");
-
+            strcat(ExPath,input);
             char *args2[4];
             args2[0] = path;
             args2[1] = path;
-            args2[2] = "../exercise1/input.txt";
+            args2[2] = ExPath;
             args2[3] = NULL;
             ret_code2 = execl(args2[0], args2[1], args2[2], args2[3]);
             if (ret_code2 == -1)
@@ -136,12 +148,12 @@ int main(int argc, char *argv[])
             close(1);      /* close stdout*/
             dup(output);   /* dup will copy fd into stdout */
             close(output); /* close no need for fd anymore*/
-
+            strcat(ExPath, expectedOutput);
             char *args3[5];
             args3[0] = "code/partA/comp.exe";
             args3[1] = "code/partA/comp.exe";
             args3[2] = "../exercise1/output.txt";
-            args3[3] = "../exercise1/expectedOutput.txt";
+            args3[3] = ExPath;
             args3[4] = NULL;
             ret_code3 = execl(args3[0], args3[1], args3[2], args3[3], args3[4]);
             if (ret_code3 == -1)
@@ -210,3 +222,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+

@@ -1,4 +1,4 @@
 ./students
-./input.txt
-./expectedOutput.txt
+/input.txt
+/expectedOutput.txt
 
