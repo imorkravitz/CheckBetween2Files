@@ -109,12 +109,8 @@ int main(int argc, char *argv[])
             close(output); /* close no need for fd anymore*/
 
             memset(name, 0, 50);
-            int i = 0;
-            while (line2[i] != '\n')
-            {
-                name[i] = line2[i];
-                i++;
-            }
+            fixCpy(name,line2);
+            
             char path[1000];
             strcpy(path, students);
             strcat(path, "/");
