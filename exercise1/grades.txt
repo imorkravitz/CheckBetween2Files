@@ -1,3 +1,4 @@
 ela: 100
 gil: 100
 roy: 0
+zion: 100

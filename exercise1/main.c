@@ -1,3 +1,7 @@
+
+// TODO: *** אור קרביץ – 308248293 *** //
+// TODO:*** עמינדב וויקוביץ – 308526508 *** //
+
 #include <stdio.h>
 #include <sys/fcntl.h>
 #include <sys/types.h>
@@ -6,6 +10,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 void fixCpy(char* dest, char* src){
     if (src)
@@ -41,7 +46,7 @@ int main(int argc, char *argv[])
 
     fclose(file);
 
-    //-------------------------------//
+    //--------------creating studentList-----------------//
 
     int fd, pid, ret_code;
     fd = open("studentList.txt", (O_WRONLY | O_CREAT | O_TRUNC), 0666);
@@ -89,7 +94,7 @@ int main(int argc, char *argv[])
 
     char line2[50];
     //-----------------------main part----------------------------------
-    while (fgets(line2, sizeof(line2), file2))
+    while (fgets(line2, sizeof(line2), file2)) // creating the output.txt file
     {
         int output = open("output.txt", (O_WRONLY | O_CREAT | O_TRUNC), 0666);
         if (output < 0)
@@ -97,7 +102,7 @@ int main(int argc, char *argv[])
             perror("after open");
             _exit(1);
         }
-        //----------------calculate students function from input----------------//
+        //----------------calculate students functions from input----------------//
         char ExPath[50] ="../exercise1";
         int fd2, pid2, ret_code2;
         char name[50];
@@ -218,4 +223,5 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
 
